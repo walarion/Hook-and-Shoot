@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour {
 
-    public float speed = 1;     
+    public float speed = 1;
+    public GameObject bulletPrefab;
+    public Transform bulletSpawn; 
+
 
 
 	// Use this for initialization
@@ -21,6 +24,11 @@ public class PlayerMovement : MonoBehaviour {
 
 
         transform.localRotation = Quaternion.identity;
+
+
+        if (Input.GetKey(KeyCode.Space))
+
+            Fire(); 
 
 
 
@@ -53,8 +61,35 @@ public class PlayerMovement : MonoBehaviour {
 
             transform.Translate(Vector3.left * speed);
 
+       // if (Input.GetKeyDown(KeyCode.G))
+
+         //   transform.Translate(new Vector3(0,0,5));
+            
 
 
 
     }
+
+
+    void Fire()
+
+    {
+        var bullet = (GameObject)Instantiate(
+            bulletPrefab,
+            bulletSpawn.position, 
+            bulletSpawn.rotation
+            );
+
+        //add velocity to the bullet
+        bullet.GetComponent<Rigidbody>().velocity = bullet.transform.forward * 20;
+
+        //destroy bullet after X seconds
+
+        Destroy(bullet, 1.0f);
+        
+
+
+    }
+
+
 }
